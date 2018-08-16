@@ -12,6 +12,11 @@ import moment from 'moment';
 
 import { nearest15min } from "../Utils";
 import DateTimePickerCustomInput from "./DateTimePickerCustomInput";
+import { ReactMic } from 'react-mic';
+import AudioRecorder from 'react-audio-recorder';
+
+
+
 
 class NewEvent extends Component {
 
@@ -52,6 +57,8 @@ class NewEvent extends Component {
         history.push('/');
     }
 
+
+
     render() {
         const { event } = this.state;
 
@@ -81,6 +88,19 @@ class NewEvent extends Component {
                             dateFormat="LL LT"
                         />
                     </div>
+
+                    <div className="field required eight wide">
+                        <label htmlFor="where">Where</label>
+                        <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
+                    </div>
+
+                    <AudioRecorder />
+
+                    <div className="field required eight wide">
+                        <label htmlFor="where">Where</label>
+                        <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
+                    </div>
+
                     <div className="field required eight wide">
                         <label htmlFor="where">Where</label>
                         <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
@@ -90,7 +110,8 @@ class NewEvent extends Component {
                         <textarea name="description" id="description" rows="10" value={event.description}
                             onChange={this.handleChange.bind(this, 'description')}></textarea>
                     </div>
-                    <div className="ui buttons">
+
+                      <div className="ui buttons">
                         <Link to="/" className="ui button">Cancel</Link>
                         <div className="or"></div>
                         <button className="ui positive button" onClick={this.handleSave}>Save</button>
