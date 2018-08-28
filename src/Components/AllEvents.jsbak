@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { graphql, compose, withApollo } from "react-apollo";
-import QueryAllEvents from "../GraphQL/QueryAllEvents";
-import MutationDeleteEvent from "../GraphQL/MutationDeleteEvent";
-
+import Amplify, { API, graphqlOperation } from "aws-amplify";
 
 import moment from "moment";
 
@@ -31,7 +28,7 @@ class AllEvents extends Component {
 
     handleSync = async () => {
         const { client } = this.props;
-        const query = QueryAllEvents;
+        const query = ListEvents;
 
         this.setState({ busy: true });
 
@@ -73,7 +70,7 @@ class AllEvents extends Component {
         return (
             <div>
                 <div className="ui clearing basic segment">
-                    <h1 className="ui header left floated">BCJ Goals</h1>
+                    <h1 className="ui header left floated">All Events</h1>
                     <button className="ui icon left basic button" onClick={this.handleSync} disabled={busy}>
                         <i aria-hidden="true" className={`refresh icon ${busy && "loading"}`}></i>
                         Sync with Server
@@ -83,7 +80,7 @@ class AllEvents extends Component {
                     <div className="card blue">
                         <Link to="/newEvent" className="new-event content center aligned">
                             <i className="icon add massive"></i>
-                            <p>Create new BCJ Goal</p>
+                            <p>Create new event</p>
                         </Link>
                     </div>
                     {[].concat(events).sort((a, b) => a.when.localeCompare(b.when)).map(this.renderEvent)}
@@ -93,6 +90,36 @@ class AllEvents extends Component {
     }
 
 }
+
+const ListEvents = `query ListEvents {
+  listEvents {
+    items {
+      id
+      where
+      description
+    }
+  }
+}`;
+
+const GetEvent = `query GetEvent($id: ID! $nextToken: String) {
+    getEvent(id: $id) {
+        id
+        name
+        description
+        comments(nextToken: $nextToken) {
+            items {
+                content
+            }
+        }
+    }
+}`;
+
+// Simple query
+const allEvents = await API.graphql(graphqlOperation(ListEvents));
+
+// Query using a parameter
+const oneEvent = await API.graphql(graphqlOperation(GetEvent, { id: 'some id' }));
+console.log(oneEvent);
 
 export default withApollo(compose(
     graphql(
