@@ -9,6 +9,12 @@ query {
       where
       when
       description
+      prj_id
+      res_id_owner
+      prj_status
+      date_created
+      date_modified
+      date_required_by
       comments {
         items {
           commentId
