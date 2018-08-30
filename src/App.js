@@ -13,6 +13,16 @@ import AllEvents from './Components/AllEvents';
 import NewEvent from './Components/NewEvent';
 import ViewEvent from './Components/ViewEvent';
 
+import Client from 'aws-appsync'
+import Amplify, { Auth } from 'aws-amplify'
+import { withAuthenticator } from 'aws-amplify-react';
+
+//Get configs
+import awsmobile from './aws-exports';
+
+// Amplify init
+Amplify.configure(awsmobile);
+
 const Home = () => (
   <div className="ui container">
     <AllEvents />
@@ -20,6 +30,7 @@ const Home = () => (
 );
 
 const App = () => (
+
   <Router>
     <div>
       <Route exact={true} path="/" component={Home} />
@@ -58,9 +69,10 @@ const client = new AWSAppSyncClient({
 const WithProvider = () => (
   <ApolloProvider client={client}>
     <Rehydrated>
-      <App />
+      <AppWithAuth />
     </Rehydrated>
   </ApolloProvider>
 );
 
+const AppWithAuth = withAuthenticator(App);
 export default WithProvider;
