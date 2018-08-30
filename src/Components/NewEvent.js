@@ -12,11 +12,7 @@ import moment from 'moment';
 
 import { nearest15min } from "../Utils";
 import DateTimePickerCustomInput from "./DateTimePickerCustomInput";
-import { ReactMic } from 'react-mic';
 import AudioRecorder from 'react-audio-recorder';
-
-
-
 
 class NewEvent extends Component {
 
@@ -30,7 +26,8 @@ class NewEvent extends Component {
             when: nearest15min().format(),
             where: '',
             description: '',
-        }
+            prj_id: '',
+            }
     };
 
     handleChange(field, { target: { value } }) {
@@ -63,8 +60,9 @@ class NewEvent extends Component {
         const { event } = this.state;
 
         return (
+
             <div className="ui container raised very padded segment">
-                <h1 className="ui header">Create an event</h1>
+                <h1 className="ui header">Create a BCJ Project</h1>
                 <div className="ui form">
                     <div className="field required eight wide">
                         <label htmlFor="name">Name</label>
@@ -94,17 +92,45 @@ class NewEvent extends Component {
                         <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
                     </div>
 
-                    <AudioRecorder />
+                      <div className="field required eight wide">
+                      <div className="ui buttons">
+                        <AudioRecorder
+                          filename="bcjrecord.wav"
+                        />
 
-                    <div className="field required eight wide">
-                        <label htmlFor="where">Where</label>
-                        <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
-                    </div>
+                      </div>
+                      </div>
 
-                    <div className="field required eight wide">
-                        <label htmlFor="where">Where</label>
-                        <input type="text" id="where" value={event.where} onChange={this.handleChange.bind(this, 'where')} />
-                    </div>
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
+                      <div className="field eight wide">
+                          <label htmlFor="prj_id">Project ID</label>
+                          <input type="text" id="prj_id" value={event.prj_id} onChange={this.handleChange.bind(this, 'prj_id')} />
+                      </div>
+
                     <div className="field required eight wide">
                         <label htmlFor="description">Description</label>
                         <textarea name="description" id="description" rows="10" value={event.description}

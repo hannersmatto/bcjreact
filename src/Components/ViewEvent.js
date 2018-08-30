@@ -14,7 +14,7 @@ class ViewEvent extends Component {
 
         return (
             <div className={`ui container raised very padded segment ${loading ? 'loading' : ''}`}>
-                <Link to="/" className="ui button">Back to events</Link>
+                <Link to="/" className="ui button">Back to project list</Link>
                 <div className="ui items">
                     <div className="item">
                         {event && <div className="content">
@@ -23,6 +23,7 @@ class ViewEvent extends Component {
                             <div className="extra"><i className="icon clock"></i>{moment(event.when).format('LT')}</div>
                             <div className="extra"><i className="icon marker"></i>{event.where}</div>
                             <div className="description">{event.description}</div>
+                            <div className="prj_id">{event.prj_id}</div>
                             <div className="extra">
                                 <EventComments eventId={event.id} comments={event.comments} />
                             </div>
