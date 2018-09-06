@@ -21,7 +21,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # AppSync
-AppSync.js
+src/AppSync.js
+src/AppSync.json
+src/config.js
 
 #awsmobilejs
 appsync-info.json

@@ -1,0 +1,285 @@
+type Attachment {
+	##  A unique identifier for the attachment.
+	attachmentId: String!
+	##  The attachment's content.
+	location: String!
+	##  The attachment timestamp. This field is indexed to enable sorted pagination.
+	createdAt: String!
+	##  The id of the attachment's parent event.
+	creator: ID!
+}
+
+type AttachmentConnection {
+	items: [Attachment]
+	nextToken: String
+}
+
+type Comment {
+	##  A unique identifier for the comment.
+	commentId: String!
+	##  The comment's content.
+	content: String!
+	##  The comment timestamp. This field is indexed to enable sorted pagination.
+	createdAt: String!
+	##  The id of the comment's parent event.
+	eventId: ID!
+}
+
+type CommentConnection {
+	items: [Comment]
+	nextToken: String
+}
+
+type Event {
+	##  Paginate through all comments belonging to an individual post.
+	comments(limit: Int, nextToken: String): CommentConnection
+	##attached(limit: Int, nextToken: String): AttachmentConnection
+	description: String
+	id: ID!
+	name: String
+	when: String
+	where: String
+	prj_id: String
+	res_id_owner: String
+	prj_status: String
+	date_created: String
+	date_modified: String
+	date_required_by: String
+	prj_type: String
+	date_required_orig: String
+	cal_id: String
+	budgeted_work: String
+	budgeted_cost: String
+	date_plan_start: String
+	date_plan_finish: String
+}
+
+type EventConnection {
+	items: [Event]
+	nextToken: String
+}
+
+type Mutation {
+	##  Attach to an event.
+	attachOnEvent(location: String!, createdAt: String!, eventId: ID!): Attachment
+	##  Comment on an event.
+	commentOnEvent(content: String!, createdAt: String!, eventId: ID!): Comment
+	##  Create a single event.
+	createEvent(
+		budgeted_cost: String,
+		budgeted_work: String,
+		cal_id: String,
+		date_created: String,
+		date_modified: String,
+		date_plan_finish: String,
+		date_plan_start: String,
+		date_required_by: String,
+		date_required_orig: String,
+		description: String!,
+		name: String!,
+		prj_id: String,
+		prj_status: String,
+		prj_type: String,
+		res_id_owner: String,
+		when: String!,
+		where: String!
+	): Event
+	##  Delete a single event by id.
+	deleteEvent(id: ID!): Event
+	##  Create a single resource.
+	createResource(
+		res_id: String,
+		res_code: String,
+		job_title: String,
+		email: String,
+		phone_work: String,
+		phone_home: String,
+		date_created: String,
+		profile_type: String,
+		res_type: String,
+		is_licensed: String,
+		first_name: String,
+		last_name: String,
+		is_active: String,
+		date_connected: String,
+		group_count: String,
+		identity_provider: String
+	): Resource
+	##  Delete a single resource by id.
+	deleteResource(id: ID!): Resource
+	createTeam(
+		prjtem_id: String,
+		name: String,
+		prj_id: String,
+		res_id: String,
+		role_type: String
+	): Team
+	##  Delete a single resource by id.
+	deleteTeam(id: ID!): Team
+}
+
+type Query {
+	##  Get a single event by id.
+	getEvent(id: ID!): Event
+	##  Paginate through events.
+	listEvents(filter: TableEventFilterInput, limit: Int, nextToken: String): EventConnection
+	##  Get a single resoucre by id.
+	getResource(id: ID!): Resource
+	##  Paginate through resources.
+	listResources(filter: TableResourceFilterInput, limit: Int, nextToken: String): ResourceConnection
+	getTeam(id: ID!): Team
+	##  Paginate through resources.
+	listTeams(filter: TableTeamFilterInput, limit: Int, nextToken: String): TeamConnection
+}
+
+type Resource {
+	id: ID!
+	res_id: String
+	res_code: String
+	job_title: String
+	email: String
+	phone_work: String
+	phone_home: String
+	phone_mobile: String
+	date_created: String
+	profile_type: String
+	res_type: String
+	is_licensed: String
+	first_name: String
+	last_name: String
+	is_active: String
+	date_connected: String
+	group_count: String
+	identity_provider: String
+	attached(limit: Int, nextToken: String): AttachmentConnection
+}
+
+type ResourceConnection {
+	items: [Resource]
+	nextToken: String
+}
+
+type Subscription {
+	subscribeToEventComments(eventId: String!): Comment
+		@aws_subscribe(mutations: ["commentOnEvent"])
+}
+
+input TableBooleanFilterInput {
+	eq: Boolean
+	ne: Boolean
+}
+
+input TableEventFilterInput {
+	description: TableStringFilterInput
+	id: TableIDFilterInput
+	name: TableStringFilterInput
+	when: TableStringFilterInput
+	where: TableStringFilterInput
+	prj_id: TableStringFilterInput
+	res_id_owner: TableStringFilterInput
+	prj_status: TableStringFilterInput
+	date_created: TableStringFilterInput
+	date_modified: TableStringFilterInput
+	date_required_by: TableStringFilterInput
+	prj_type: TableStringFilterInput
+	date_required_orig: TableStringFilterInput
+	cal_id: TableStringFilterInput
+	budgeted_work: TableStringFilterInput
+	budgeted_cost: TableStringFilterInput
+	date_plan_start: TableStringFilterInput
+	date_plan_finish: TableStringFilterInput
+}
+
+input TableFloatFilterInput {
+	between: [Float]
+	contains: Float
+	eq: Float
+	ge: Float
+	gt: Float
+	le: Float
+	lt: Float
+	ne: Float
+	notContains: Float
+}
+
+input TableIDFilterInput {
+	beginsWith: ID
+	between: [ID]
+	contains: ID
+	eq: ID
+	ge: ID
+	gt: ID
+	le: ID
+	lt: ID
+	ne: ID
+	notContains: ID
+}
+
+input TableIntFilterInput {
+	between: [Int]
+	contains: Int
+	eq: Int
+	ge: Int
+	gt: Int
+	le: Int
+	lt: Int
+	ne: Int
+	notContains: Int
+}
+
+input TableResourceFilterInput {
+	date_connected: TableStringFilterInput
+	date_created: TableStringFilterInput
+	email: TableStringFilterInput
+	first_name: TableStringFilterInput
+	group_count: TableStringFilterInput
+	id: TableIDFilterInput
+	identity_provider: TableStringFilterInput
+	is_active: TableStringFilterInput
+	is_licensed: TableStringFilterInput
+	job_title: TableStringFilterInput
+	last_name: TableStringFilterInput
+	phone_home: TableStringFilterInput
+	phone_mobile: TableStringFilterInput
+	phone_work: TableStringFilterInput
+	profile_type: TableStringFilterInput
+	res_code: TableStringFilterInput
+	res_id: TableStringFilterInput
+	res_type: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+	beginsWith: String
+	between: [String]
+	contains: String
+	eq: String
+	ge: String
+	gt: String
+	le: String
+	lt: String
+	ne: String
+	notContains: String
+}
+
+input TableTeamFilterInput {
+	id: TableIDFilterInput
+	prjtem_id: TableStringFilterInput
+	name: TableStringFilterInput
+	prj_id: TableStringFilterInput
+	res_id: TableStringFilterInput
+	role_type: TableStringFilterInput
+}
+
+type Team {
+	id: ID!
+	prjtem_id: String
+	name: String
+	prj_id: String
+	res_id: String
+	role_type: String
+}
+
+type TeamConnection {
+	items: [Team]
+	nextToken: String
+}

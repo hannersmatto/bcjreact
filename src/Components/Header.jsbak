@@ -1,0 +1,64 @@
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import menu from "semantic-ui-react";
+
+import { Greetings } from 'aws-amplify-react';
+
+const GreetingsTheme = {
+    navBar: {
+    },
+    navRight: {
+    },
+    navButton: {
+        border: '0',
+        background: 'white',
+        borderBottom: '1px solid',
+        fontSize: '0.8em'
+    }
+}
+
+class Header extends Component {
+
+
+    render() {
+
+        return (
+          <div className="ui clearing basic segment">
+              <h1 className="ui header left floated"><i className="icon pied piper alternate massive"/></h1>
+
+              <h1 className="ui header center fixed">
+              <div class="ui tabular menu">
+              <Link to="/">
+                <a class="item">
+                  Projects
+                </a>
+                </Link>
+                <Link to="/Teams">
+              <a class="item">
+              Teams
+              </a>
+              </Link>
+                  <Link to="/Resources">
+                  <a class="item">
+                  Resources
+                    </a>
+                    </Link>
+
+                  <div className="right menu">
+                    <a className="item">
+                    <Greetings
+                      theme={GreetingsTheme}
+                      outGreeting="Welcome"
+                      inGreeting={(username) => ``}
+                    />
+                    </a>
+                    </div>
+                  </div>
+                </h1>
+          </div>
+        )
+    }
+
+}
+
+export default Header

@@ -12,10 +12,20 @@ import './App.css';
 import AllEvents from './Components/AllEvents';
 import NewEvent from './Components/NewEvent';
 import ViewEvent from './Components/ViewEvent';
+import ViewTeam from './Components/ViewTeam';
+import ViewResource from './Components/ViewResource';
+import NewTeam from './Components/NewTeam';
+import NewResource from './Components/NewResource';
+import AllResources from './Components/AllResources';
+import AllTeams from './Components/AllTeams';
+import Header from './Components/Header';
+
+
 
 import Client from 'aws-appsync'
-import Amplify, { Auth } from 'aws-amplify'
+import Amplify from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react';
+
 
 //Get configs
 import awsmobile from './aws-exports';
@@ -25,9 +35,24 @@ Amplify.configure(awsmobile);
 
 const Home = () => (
   <div className="ui container">
+  <Header/>
     <AllEvents />
   </div>
 );
+
+const AllResourcesLayout = () => (
+  <div className="ui container">
+  <Header/>
+    <AllResources />
+  </div>
+)
+
+const AllTeamsLayout = () => (
+  <div className="ui container">
+  <Header/>
+      <AllTeams/>
+  </div>
+)
 
 const App = () => (
 
@@ -35,7 +60,14 @@ const App = () => (
     <div>
       <Route exact={true} path="/" component={Home} />
       <Route path="/event/:id" component={ViewEvent} />
+      <Route path="/team/:id" component={ViewTeam} />
+      <Route path="/resource/:id" component={ViewResource} />
       <Route path="/newEvent" component={NewEvent} />
+      <Route path="/resources" component={AllResourcesLayout} />
+      <Route path="/newResource" component={NewResource} />
+      <Route path="/teams" component={AllTeamsLayout} />
+      <Route path="/newTeam" component={NewTeam} />
+
     </div>
   </Router>
 );
@@ -74,5 +106,11 @@ const WithProvider = () => (
   </ApolloProvider>
 );
 
-const AppWithAuth = withAuthenticator(App);
+const federated = {
+    google_client_id: '',
+    facebook_app_id: '',
+    amazon_client_id: ''
+};
+
+const AppWithAuth = withAuthenticator(App, federated);
 export default WithProvider;

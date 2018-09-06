@@ -1,14 +1,15 @@
 --- !com.amazonaws.mobilehub.v0.Project 
+apps:
+  web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
-  content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
+  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint {}
+  sign-in: !com.amazonaws.mobilehub.v0.SignIn 
     attributes:
       enabled: true
-      visibility: public-global
+      optional-sign-in: true
     components:
-      release: !com.amazonaws.mobilehub.v0.Bucket {}
-  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
-    components:
-      analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
-  sign-in: !com.amazonaws.mobilehub.v0.SignIn {}
+      sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
+        attributes:
+          user-pool-id: ap-southeast-2_Etjax8PkM
 name: bcjreact-2018-08-28-15-24-27
 region: ap-southeast-2

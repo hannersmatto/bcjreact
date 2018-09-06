@@ -161,3 +161,53 @@ export default withApollo(compose(
         }
     )
 )(AllEvents));
+
+
+
+
+<div className="ui clearing basic segment">
+    <h1 className="ui header left floated"><i className="icon hooli massive"/></h1>
+    <button className="ui icon left basic button" onClick={this.handleSync} disabled={busy}>
+        <i aria-hidden="true" className={`refresh icon ${busy && "loading"}`}></i>
+        Sync with Server
+    </button>
+    <h1 className="ui header center fixed">
+    <div class="ui tabular menu">
+      <a class="active item">
+        Projects
+      </a>
+      <Link to="/Resources">
+    <a class="item">
+    Teams
+    </a>
+    </Link>
+        <Link to="/Resources">
+        <a class="item">
+        Resources
+          </a>
+          </Link>
+
+        <div class="right menu">
+          <a class="item">
+          <Greetings
+            theme={GreetingsTheme}
+            outGreeting="Welcome"
+            inGreeting={(username) => ``}
+          />
+          </a>
+          </div>
+        </div>
+      </h1>
+</div>
+<body>
+<div className="ui sidebar left inverted menu">
+<a class="item">
+  Item 1
+</a>
+<a class="item">
+  Item 2
+</a>
+<a class="item">
+  Item 3
+</a>
+</div>

@@ -1,0 +1,62 @@
+import gql from "graphql-tag";
+
+export default gql(`
+mutation(
+      $res_id: String
+      $res_code: String
+      $job_title: String
+      $email: String
+      $phone_work: String
+      $phone_home: String
+      $phone_mobile: String
+      $date_created: String
+      $profile_type: String
+      $res_type: String
+      $is_licensed: String
+      $first_name: String
+      $last_name: String
+      $is_active: String
+      $date_connected: String
+      $group_count: String
+      $identity_provider: String
+  )
+  {
+  createResource(
+        res_id: $res_id
+        res_code: $res_code
+        job_title: $job_title
+        email: $email
+        phone_work: $phone_work
+        phone_home: $phone_home
+        phone_mobile: $phone_mobile
+        date_created: $date_created
+        profile_type: $profile_type
+        res_type: $res_type
+        is_licensed: $is_licensed
+        first_name: $first_name
+        last_name: $last_name
+        is_active: $is_active
+        date_connected: $date_connected
+        group_count: $group_count
+        identity_provider: $identity_provider
+  ){
+      id
+      res_id
+      res_code
+      job_title
+      email
+      phone_work
+      phone_home
+      phone_mobile
+      date_created
+      profile_type
+      res_type
+      is_licensed
+      first_name
+      last_name
+      is_active
+      date_connected
+      group_count
+      identity_provider
+  }
+}`);

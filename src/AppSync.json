@@ -1,6 +1,6 @@
 ﻿{
     "graphqlEndpoint": "https://5232ecskajcypjizi3bcmtskzi.appsync-api.ap-southeast-2.amazonaws.com/graphql",
     "region": "ap-southeast-2",
-    "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "apiKey": "null"
+    "authenticationType": "API_KEY",
+    "apiKey": "da2-rf4rdxytuzfibicomser6r7dwa"
 }

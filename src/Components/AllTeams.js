@@ -1,0 +1,136 @@
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+
+import { graphql, compose, withApollo } from "react-apollo";
+import QueryAllTeams from "../GraphQL/QueryAllTeams";
+import MutationDeleteTeam from "../GraphQL/MutationDeleteTeam";
+
+import moment from "moment";
+
+class AllTeams extends Component {
+
+    state = {
+        busy: false,
+    }
+
+    static defaultProps = {
+        teams: [],
+        deleteTeam: () => null,
+    }
+
+    async handleDeleteClick(team, e) {
+        e.preventDefault();
+
+        if (window.confirm(`Are you sure you want to delete team ${team.id}`)) {
+            const { deleteTeam } = this.props;
+
+            await deleteTeam(team);
+        }
+    }
+
+    handleSync = async () => {
+        const { client } = this.props;
+        const query = QueryAllTeams;
+
+        this.setState({ busy: true });
+
+        await client.query({
+            query,
+            fetchPolicy: 'network-only',
+        });
+
+        this.setState({ busy: false });
+    }
+
+    renderTeam = (team) => (
+        <Link to={`/team/${team.id}`} className="card" key={team.id}>
+
+        <div className="content">
+            <div className="header">{team.id}</div>
+        </div>
+
+            <div className="content">
+                <div>{team.role_type}</div>
+                <div>{team.res_id}</div>
+                <div>{team.name}</div>
+
+            </div>
+
+            <button className="ui bottom attached button" onClick={this.handleDeleteClick.bind(this, team)}>
+              <i className="trash icon"></i>
+              Delete
+          </button>
+
+        </Link>
+    );
+
+    render() {
+        const { busy } = this.state;
+        const { teams } = this.props;
+
+        return (
+            <div>
+
+            <button className="ui icon right basic button" onClick={this.handleSync} disabled={busy}>
+                <i aria-hidden="true" className={`refresh icon ${busy && "loading"}`}></i>
+                Sync with Server
+            </button>
+
+                <div className="ui link cards">
+                    <div className="card green">
+                        <Link to="/newTeam" className="new-team content center aligned">
+                            <i className="icon add large"></i>
+                            <p>Create new bcj Team</p>
+                        </Link>
+                    </div>
+                    {[].concat(teams).sort((a, b) => a.id.localeCompare(b.id)).map(this.renderTeam)}
+                </div>
+
+            </div>
+        );
+    }
+
+  }
+
+export default withApollo(compose(
+    graphql(
+        QueryAllTeams,
+        {
+            options: {
+                fetchPolicy: 'cache-first',
+            },
+            props: ({ data: { listTeams = { items: [] } } }) => ({
+                teams: listTeams.items
+            })
+        }
+    ),
+    graphql(
+        MutationDeleteTeam,
+        {
+            options: {
+                update: (proxy, { data: { deleteTeam } }) => {
+                    const query = QueryAllTeams;
+                    const data = proxy.readQuery({ query });
+
+                    data.listTeams.items = data.listTeams.items.filter(team => team.id !== deleteTeam.id);
+
+                    proxy.writeQuery({ query, data });
+                }
+            },
+            props: (props) => ({
+                deleteTeam: (team) => {
+                    return props.mutate({
+                        variables: { id: team.id },
+                        optimisticResponse: () => ({
+                          deleteTeam: {
+                              ...team, __typename: 'Team'
+                          }
+                        }),
+                    });
+                }
+            })
+        }
+    )
+)(AllTeams));

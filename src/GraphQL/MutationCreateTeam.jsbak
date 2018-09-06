@@ -1,0 +1,26 @@
+import gql from "graphql-tag";
+
+export default gql(`
+mutation(
+  $name: String
+  $res_id: String
+  $prj_id :String
+  $role_type : String
+  $prjtem_id: String
+ )
+  {
+  createTeam(
+    prjtem_id: $prjtem_id
+    name: $name
+    prj_id: $prj_id
+    res_id: $res_id
+    role_type: $role_type
+  ) {
+    id
+    prjtem_id
+    name
+    prj_id
+    res_id
+    role_type
+  }
+}`);

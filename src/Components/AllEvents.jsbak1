@@ -9,7 +9,18 @@ import { Greetings } from 'aws-amplify-react';
 
 import moment from "moment";
 
-
+const GreetingsTheme = {
+    navBar: {
+    },
+    navRight: {
+    },
+    navButton: {
+        border: '0',
+        background: 'white',
+        borderBottom: '1px solid',
+        fontSize: '0.8em'
+    }
+}
 
 class AllEvents extends Component {
 
@@ -48,11 +59,10 @@ class AllEvents extends Component {
     }
 
     renderEvent = (event) => (
-        <Link to={`/event/${event.id}`} className="card orange" key={event.id}>
+        <Link to={`/event/${event.id}`} className="card blue" key={event.id}>
             <div className="content">
-                <div className="header" >{event.name}</div>
+                <div className="header">{event.name}</div>
             </div>
-
 
             <div className="content">
                 <p><i className="icon calendar"></i>{moment(event.when).format('LL')}</p>
@@ -83,17 +93,54 @@ class AllEvents extends Component {
         const { events } = this.props;
 
         return (
-
-
-
             <div>
-            <button className="ui icon right basic button" onClick={this.handleSync} disabled={busy}>
-                <i aria-hidden="true" className={`refresh icon ${busy && "loading"}`}></i>
-                Sync with Server
-            </button>
+                <div className="ui clearing basic segment">
+                    <h1 className="ui header left floated"><i className="icon hooli massive"/></h1>
+                    <button className="ui icon left basic button" onClick={this.handleSync} disabled={busy}>
+                        <i aria-hidden="true" className={`refresh icon ${busy && "loading"}`}></i>
+                        Sync with Server
+                    </button>
+                    <h1 className="ui header center fixed">
+                    <div class="ui tabular menu">
+                      <a class="active item">
+                        Projects
+                      </a>
+                      <Link to="/Resources">
+                    <a class="item">
+                    Teams
+                    </a>
+                    </Link>
+                        <Link to="/Resources">
+                        <a class="item">
+                        Resources
+                          </a>
+                          </Link>
 
-
-
+                        <div class="right menu">
+                          <a class="item">
+                          <Greetings
+                            theme={GreetingsTheme}
+                            outGreeting="Welcome"
+                            inGreeting={(username) => ``}
+                          />
+                          </a>
+                          </div>
+                        </div>
+                      </h1>
+                </div>
+              <body>
+              <div className="ui sidebar left inverted menu">
+                <a class="item">
+                  Item 1
+                </a>
+                <a class="item">
+                  Item 2
+                </a>
+                <a class="item">
+                  Item 3
+                </a>
+              </div>
+                <div className="pusher">
                 <div className="ui link cards">
                     <div className="card green">
                         <Link to="/newEvent" className="new-event content center aligned">
@@ -101,10 +148,10 @@ class AllEvents extends Component {
                             <p>Create new bcj project</p>
                         </Link>
                     </div>
-                {[].concat(events).sort((a, b) => a.when.localeCompare(b.when)).map(this.renderEvent)}
+                    {[].concat(events).sort((a, b) => a.when.localeCompare(b.when)).map(this.renderEvent)}
                 </div>
-
-
+                </div>
+                </body>
             </div>
         );
     }

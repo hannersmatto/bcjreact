@@ -7,6 +7,9 @@ import moment from 'moment';
 import QueryGetEvent from "../GraphQL/QueryGetEvent";
 import EventComments from "./EventComments";
 
+import ReactGantt from 'gantt-for-react';
+
+
 class ViewEvent extends Component {
 
     render() {
